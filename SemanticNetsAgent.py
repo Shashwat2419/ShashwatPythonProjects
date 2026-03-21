@@ -1,5 +1,4 @@
 #References used:
-#Semantic Networks and Generate and Test Ed Lessons
 #https://www.geeksforgeeks.org/python/missionaries-and-cannibals/
 #https://en.wikipedia.org/wiki/Missionaries_and_cannibals_problem
 
