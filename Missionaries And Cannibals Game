@@ -1,0 +1,127 @@
+Semantic Nets Agent Project
+1. Introduction
+The Cannibals and Missionaries problem is a state-space search problem in artificial intelligence.
+•	There are 3 missionaries and 3 cannibals on one side of a river. 
+•	They must cross to the other side using a boat that can carry at most 2 people. 
+•	Constraint: At no point should cannibals outnumber missionaries on either side, or the missionaries will be eaten. 
+________________________________________
+2. Objective
+Move all missionaries and cannibals safely to the opposite side of the river while following all constraints.
+________________________________________
+ 3. Rules
+1.	Boat can carry 1 or 2 people only 
+2.	Boat cannot cross empty 
+3.	Cannibals must never exceed missionaries (on either side) 
+4.	Valid combinations: 
+o	1 Missionary 
+o	2 Missionaries 
+o	1 Cannibal 
+o	2 Cannibals 
+o	1 Missionary + 1 Cannibal 
+________________________________________
+4. State Representation
+Each state can be represented as:
+(M_left, C_left, Boat_position)
+Where:
+•	M_left = number of missionaries on left side 
+•	C_left = number of cannibals on left side 
+•	Boat_position = LEFT or RIGHT 
+Example:
+(3, 3, LEFT) → Initial State
+(0, 0, RIGHT) → Goal State
+________________________________________
+5. Solution Approach
+Using BFS (Breadth-First Search)
+•	Ensures shortest path solution 
+•	Explores all possible valid states level by level 
+Steps:
+1.	Start from initial state (3,3,LEFT) 
+2.	Generate all valid moves 
+3.	Avoid invalid states 
+4.	Track visited states 
+5.	Stop when goal state reached 
+________________________________________
+6. Python Code (BFS Solution)
+from collections import deque
+
+# State: (missionaries_left, cannibals_left, boat)
+initial_state = (3, 3, 'L')
+goal_state = (0, 0, 'R')
+
+def is_valid(m, c):
+    if m < 0 or c < 0 or m > 3 or c > 3:
+        return False
+    if (m > 0 and m < c):  # left side
+        return False
+    if (3 - m > 0 and 3 - m < 3 - c):  # right side
+        return False
+    return True
+
+def get_next_states(state):
+    m, c, boat = state
+    moves = [(1,0),(2,0),(0,1),(0,2),(1,1)]
+    result = []
+
+    for move in moves:
+        if boat == 'L':
+            new_state = (m - move[0], c - move[1], 'R')
+        else:
+            new_state = (m + move[0], c + move[1], 'L')
+
+        if is_valid(new_state[0], new_state[1]):
+            result.append(new_state)
+
+    return result
+
+def bfs():
+    queue = deque([(initial_state, [])])
+    visited = set()
+
+    while queue:
+        state, path = queue.popleft()
+
+        if state in visited:
+            continue
+
+        visited.add(state)
+        path = path + [state]
+
+        if state == goal_state:
+            return path
+
+        for next_state in get_next_states(state):
+            queue.append((next_state, path))
+
+    return None
+
+solution = bfs()
+
+for step in solution:
+    print(step)
+________________________________________
+7. Sample Output (Steps)
+(3, 3, 'L')
+(3, 1, 'R')
+(3, 2, 'L')
+(3, 0, 'R')
+...
+(0, 0, 'R')
+________________________________________
+8. Applications
+•	Artificial Intelligence (AI) 
+•	Search Algorithms (BFS, DFS) 
+•	Game Problem Solving 
+•	Constraint Satisfaction Problems 
+________________________________________
+9. Advantages
+•	Demonstrates problem-solving using AI 
+•	Teaches state-space representation 
+•	Helps understand constraints handling 
+________________________________________
+10. Limitations
+•	Limited to small dataset 
+•	Becomes complex with larger inputs 
+________________________________________
+11. Conclusion
+The Cannibals and Missionaries problem is an excellent example of how AI search algorithms like BFS can solve constrained problems efficiently. It builds a strong foundation for advanced topics like pathfinding, optimization, and decision-making systems.
+
