@@ -1,0 +1,137 @@
+1. Introduction
+
+An Automated Code Grading System is a software platform that:
+
+Accepts code submissions from users/students
+Automatically executes and evaluates code
+Assigns marks based on correctness and performance
+
+It is widely used in:
+
+Online judges (like coding platforms)
+Universities for lab evaluation
+Competitive programming
+2. Objective
+
+To develop a system that:
+
+Takes user code as input
+Runs it against predefined test cases
+Compares output with expected results
+Generates scores and feedback automatically
+3. Key Features
+User Side
+Submit code file
+View results (Pass/Fail)
+Get score & feedback
+System Side
+Compile & execute code
+Run multiple test cases
+Compare outputs
+Generate report
+4. System Modules
+1. Input Module
+Accepts user code (Python/C++ etc.)
+2. Execution Engine
+Runs code in a controlled environment
+3. Test Case Manager
+Stores input & expected output
+4. Evaluation Module
+Compares outputs
+Assigns marks
+5. Reporting Module
+Displays results & score
+5. Workflow
+Start → Upload Code → Compile/Run
+      → Execute Test Cases
+      → Compare Output
+      → Assign Score
+      → Show Result → End
+ 6. Python Implementation (Basic Version)
+
+Note: This version works for Python code only and is safe for basic projects.
+
+import subprocess
+
+# Sample test cases
+test_cases = [
+    {"input": "2 3", "output": "5"},
+    {"input": "10 5", "output": "15"}
+]
+
+def run_code(code_file, input_data):
+    try:
+        result = subprocess.run(
+            ["python", code_file],
+            input=input_data,
+            text=True,
+            capture_output=True,
+            timeout=2
+        )
+        return result.stdout.strip()
+    except Exception as e:
+        return str(e)
+
+def evaluate(code_file):
+    score = 0
+
+    for i, test in enumerate(test_cases):
+        output = run_code(code_file, test["input"])
+        expected = test["output"]
+
+        print(f"\nTest Case {i+1}")
+        print("Input:", test["input"])
+        print("Expected:", expected)
+        print("Output:", output)
+
+        if output == expected:
+            print("Passed")
+            score += 1
+        else:
+            print("Failed")
+
+    print(f"\n Final Score: {score}/{len(test_cases)}")
+
+# Run evaluation
+file_name = input("Enter Python file name: ")
+evaluate(file_name)
+ 7. Example Use Case
+Student Code (sum.py)
+a, b = map(int, input().split())
+print(a + b)
+Output:
+Test Case 1 → Passed
+Test Case 2 → Passed
+
+Final Score: 2/2
+ 8. Advanced Features (For High Marks)
+ Upgrade Ideas:
+ Multi-language support (C, C++, Java)
+ GUI (Tkinter / Web interface)
+ Plagiarism detection
+ Time & memory limit checking
+ Database (store submissions)
+ Online judge system (like coding platforms)
+ 9. Technologies Used
+Python (core logic)
+Subprocess module (code execution)
+Optional:
+SQLite/MySQL (database)
+Flask/Django (web app)
+10. Advantages
+Saves teacher’s time
+Fast & accurate evaluation
+Scalable for large classes
+❌ 11. Limitations
+Security risks (running user code)
+Needs sandboxing for real systems
+Limited language support (basic version)
+🏁 12. Conclusion
+
+The Automated Code Grading System is a practical and impactful project that demonstrates:
+
+Automation
+Programming logic
+Real-world application in education systems
+
+It can be expanded into a full online coding platform.
